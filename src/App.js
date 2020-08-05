@@ -1,10 +1,23 @@
 import React from 'react';
-import { Switch } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
+import _ from 'lodash';
+
+import routes from './routes';
+import Layout from './containers/Layout';
 
 function App() {
   return (
-    <Switch>
-    </Switch>
+    <Layout>
+      <Switch>
+        {
+          _.map(routes,(route,idx) => {
+            return (
+              <Route key={idx} {...route} />
+            );
+          })
+        }
+      </Switch>
+    </Layout>
   );
 }
 
