@@ -3,12 +3,14 @@ import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 
 export default React.memo(function LoginForm(props) {
   console.log('LoginForm ===>',props);
-  const { submitHandler, inputHandler, formData:{ user_email, user_password } } = props;
+  const { passwordRef, emailRef, submitHandler, inputHandler, formData:{ user_email, user_password }, error } = props;
   return (
     <Form onSubmit={submitHandler}>
+      {error && <Label>{error}</Label>}
       <FormGroup>
         <Label for="exampleEmail">Email</Label>
         <Input
+          ref={emailRef}
           value={user_email}
           autoComplete={'none'}
           type="text"
@@ -21,6 +23,7 @@ export default React.memo(function LoginForm(props) {
       <FormGroup>
         <Label for="examplePassword">Password</Label>
         <Input
+          ref={passwordRef}
           value={user_password}
           autoComplete={'none'}
           type="password"
@@ -30,7 +33,7 @@ export default React.memo(function LoginForm(props) {
           onChange={inputHandler}
         />
       </FormGroup>
-      <Button className={'btn btn-danger'} type="submit">Submit</Button>
+      <Button className={'btn btn-danger'} type="submit">Login</Button>
     </Form>
   );
 });

@@ -12,7 +12,12 @@ function App() {
         {
           _.map(routes,(route,idx) => {
             return (
-              <Route key={idx} {...route} />
+              <Route key={idx} render={(props)=> {
+                const { component: Component, ...rest } = route;
+                return(
+                  <Component {...rest}  {...props} />
+                );
+              }} />
             );
           })
         }

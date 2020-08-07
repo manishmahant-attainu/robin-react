@@ -1,18 +1,42 @@
 import React, { Component } from 'react';
 import { LoginForm } from '../../components';
+import { httpRequest } from '../../config';
 
 class Login extends Component {
 
-  state = {
-    formData:{
-      user_email:'',
-      user_password:'',
-    }
+  constructor(props){
+    super(props);
+    this.state = {
+      error:'',
+      formData:{
+        user_email:'',
+        user_password:'',
+      }
+    };
+    this.emailRef = React.createRef();
+    this.passwordRef = React.createRef();
   }
 
-  submitHandler = (e) => {
+  componentDidMount(){
+    console.log('MOUNTED', this.emailRef.current);
+  }
+
+  submitHandler = async (e) => {
     e.preventDefault();
-    console.log(this.state.formData);
+    console.log(this.emailRef.current);
+    console.log(this.passwordRef.current);
+    const { formData } = this.state;
+    try {
+      const user = await httpRequest({
+        method:'POST',
+        url:'login',
+        data:{email:formData.user_email, password:formData.user_password}
+      });
+      localStorage.setItem('access_token',user.data.token);
+      localStorage.setItem('user_info',JSON.stringify(user.data.user));
+    } catch (error) {
+      this.setState({error:error.response.data.message});
+    }
   }
 
   inputHandler = (e) => {
@@ -20,6 +44,7 @@ class Login extends Component {
     const value = e.target.value;
     const { formData } = this.state;
     this.setState({
+      error:'',
       formData: { ...formData, [name]:value}
     });
   }
@@ -27,12 +52,15 @@ class Login extends Component {
   render(){
     console.log('Login ==> ',this.props);
     // console.log(this.props.match.params);
-    const { formData } = this.state;
+    const { formData, error } = this.state;
     return(
       <LoginForm
         submitHandler={this.submitHandler}
         inputHandler={this.inputHandler}
         formData={formData}
+        error={error}
+        emailRef={this.emailRef}
+        passwordRef={this.passwordRef}
       />
     );
   }
