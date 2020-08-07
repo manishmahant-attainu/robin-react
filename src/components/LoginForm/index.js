@@ -9,7 +9,7 @@ export default React.memo(function LoginForm(props) {
       {error && <Label>{error}</Label>}
       <FormGroup>
         <Label for="exampleEmail">Email</Label>
-        <Input
+        <input
           ref={emailRef}
           value={user_email}
           autoComplete={'none'}

@@ -18,7 +18,7 @@ class Login extends Component {
   }
 
   componentDidMount(){
-    console.log('MOUNTED', this.emailRef.current);
+    console.log('MOUNTED', this.emailRef.current.focus());
   }
 
   submitHandler = async (e) => {
