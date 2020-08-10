@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 
 export default React.memo(function LoginForm(props) {
-  console.log('LoginForm ===>',props);
+  // console.log('LoginForm ===>',props);
   const { passwordRef, emailRef, submitHandler, inputHandler, formData:{ user_email, user_password }, error } = props;
   return (
     <Form onSubmit={submitHandler}>

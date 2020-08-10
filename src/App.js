@@ -10,16 +10,22 @@ function App() {
     <Layout>
       <Switch>
         {
-          _.map(routes,(route,idx) => {
-            return (
-              <Route key={idx} render={(props)=> {
-                const { component: Component, ...rest } = route;
-                return(
-                  <Component {...rest}  {...props} />
-                );
-              }} />
-            );
-          })
+          _.map(
+            routes,(route,idx) => {
+              const { component: Component, ...rest } = route;
+              return (
+                <Route
+                  key={idx}
+                  {...rest}
+                  render={(props)=> {
+                    return(
+                      <Component {...rest}  {...props} />
+                    );
+                  }}
+                />
+              );
+            }
+          )
         }
       </Switch>
     </Layout>

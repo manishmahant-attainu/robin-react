@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { LoginForm } from '../../components';
 import { httpRequest } from '../../config';
 
@@ -8,6 +8,7 @@ class Login extends Component {
     super(props);
     this.state = {
       error:'',
+      date:'',
       formData:{
         user_email:'',
         user_password:'',
@@ -18,14 +19,34 @@ class Login extends Component {
   }
 
   componentDidMount(){
-    console.log('MOUNTED', this.emailRef.current.focus());
+    console.log('MOUNTED ==> componentDidMount');
+    this.emailRef.current.classList.add('form-control');
+    this.emailRef.current.focus();
+    this.timer = setInterval(() => {
+      this.setState({date: Date()});
+    },1000);
   }
+
+  componentDidUpdate(){
+    console.log('COMPONENT UPDATED ===> componentDidUpdate');
+  }
+
+  componentWillUnmount(){
+    console.log('COMPONENT UNMOUNTING ===> componentWillUnmount');
+    clearInterval(this.timer);
+  }
+
+  //Default mechanism
+  // shouldComponentUpdate(){
+  //   console.log('shouldComponentUpdate');
+  //   return true;
+  // }
 
   submitHandler = async (e) => {
     e.preventDefault();
-    console.log(this.emailRef.current);
-    console.log(this.passwordRef.current);
     const { formData } = this.state;
+    const { history } = this.props;
+
     try {
       const user = await httpRequest({
         method:'POST',
@@ -34,6 +55,7 @@ class Login extends Component {
       });
       localStorage.setItem('access_token',user.data.token);
       localStorage.setItem('user_info',JSON.stringify(user.data.user));
+      history.push('/dashboard');
     } catch (error) {
       this.setState({error:error.response.data.message});
     }
@@ -50,18 +72,20 @@ class Login extends Component {
   }
 
   render(){
-    console.log('Login ==> ',this.props);
-    // console.log(this.props.match.params);
-    const { formData, error } = this.state;
+    console.log('RENDERING ==> LOGIN CONTAINER');
+    const { formData, error, date } = this.state;
     return(
-      <LoginForm
-        submitHandler={this.submitHandler}
-        inputHandler={this.inputHandler}
-        formData={formData}
-        error={error}
-        emailRef={this.emailRef}
-        passwordRef={this.passwordRef}
-      />
+      <Fragment>
+        <div><h1>{date}</h1></div>
+        <LoginForm
+          submitHandler={this.submitHandler}
+          inputHandler={this.inputHandler}
+          formData={formData}
+          error={error}
+          emailRef={this.emailRef}
+          passwordRef={this.passwordRef}
+        />
+      </Fragment>
     );
   }
 }

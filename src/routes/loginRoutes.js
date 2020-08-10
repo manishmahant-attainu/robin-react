@@ -7,7 +7,7 @@ const loginRoutes = [
     exact: true,
     isProtected: false,
     component: Login
-  }
+  },
 ];
 
 export default loginRoutes;
