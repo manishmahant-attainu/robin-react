@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import _ from 'lodash';
-import { httpRequest } from '../../config';
+import { httpRequest, WEB_URL } from '../../config';
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -25,12 +25,19 @@ class Dashboard extends React.Component {
     this.setState({cities:cities.data.data});
   }
 
+  logout = () => {
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('user_info');
+    this.props.history.push(WEB_URL.LOGIN);
+  }
+
   render(){
     const { cities, error, userInfo } = this.state;
     console.log(userInfo);
     return(
       <Fragment>
         <div><h1>{`${userInfo.firstName.toUpperCase()}'s`} DASHBOARD</h1></div>
+        <button onClick={this.logout}>Logout</button>
         {error && <h2 style={{color:'red'}}>Error Occured: {error}</h2>}
         <ul>
           {

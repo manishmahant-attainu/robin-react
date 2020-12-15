@@ -28,11 +28,11 @@ class Login extends Component {
   }
 
   componentDidUpdate(){
-    console.log('COMPONENT UPDATED ===> componentDidUpdate');
+    // console.log('COMPONENT UPDATED ===> componentDidUpdate');
   }
 
   componentWillUnmount(){
-    console.log('COMPONENT UNMOUNTING ===> componentWillUnmount');
+    // console.log('COMPONENT UNMOUNTING ===> componentWillUnmount');
     clearInterval(this.timer);
   }
 
@@ -72,7 +72,7 @@ class Login extends Component {
   }
 
   render(){
-    console.log('RENDERING ==> LOGIN CONTAINER');
+    // console.log('RENDERING ==> LOGIN CONTAINER');
     const { formData, error, date } = this.state;
     return(
       <Fragment>
